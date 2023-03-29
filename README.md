@@ -10,7 +10,7 @@ Discord bot that integrates with Google Classroom API, providing students and te
 - Allow students to submit assignments directly through Discord.
 
 ## How to Use
-To use ClassBot, simply invite the bot to your Discord server and authorize it to access your Google Classroom account. From there, you can use various commands to interact with the bot and get information about your courses.
+To use Student Assistant, simply invite the bot to your Discord server and authorize it to access your Google Classroom account. From there, you can use various commands to interact with the bot and get information about your courses.
 
 ### Commands
 Here are some of the commands you can use with ClassBot:
