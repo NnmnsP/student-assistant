@@ -1,13 +1,13 @@
-from utils import color, gclassroom, logger
+from utilities import color, classroom, logger
 
-Classroom = gclassroom.Classroom()
-ClassroomHelper = gclassroom.ClassroomHelper(classroom=Classroom)
+Classroom = classroom.Classroom()
+ClassroomHelper = classroom.ClassroomHelper(classroom=Classroom)
 Color = color.Color()
 Logger = logger.Logger()
 
 
 def help():
-    Logger.notice("classroom-cli v0.0.1:")
+    Logger.notice("Student Assistant")
     print("h (help) | Displays this menu\nlc (listcourses) | Lists courses that you are enrolled in\nla (listassignments) | Lists assignments that are due to be turned in\nexit (stop, x) | Closes the application")
 
 

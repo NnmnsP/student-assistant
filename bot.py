@@ -4,6 +4,8 @@ import logging
 import os
 import openai
 from logging.handlers import RotatingFileHandler
+from utilities import color, classroom, logger
+from . import index
 
 dotenv.load_dotenv()
 
@@ -74,11 +76,11 @@ class MyClient(discord.Client):
         
         logging.info(f'Message from {message.author.name}: {message.content}')
 
-        """if message.content == 'ping':
+        if message.content == 'ping':
             await message.channel.send('pong')
         
         if message.content == 'Hello!':
-            await message.channel.send('Hi!')"""
+            await message.channel.send('Hi!')
             
         result = classify_intent(message.content)
         await message.channel.send(result)
