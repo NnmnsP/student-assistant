@@ -8,7 +8,7 @@ Logger = logger.Logger()
 
 def help():
     Logger.notice("Student Assistant")
-    print("h (help) | Displays this menu\nlc (listcourses) | Lists courses that you are enrolled in\nla (listassignments) | Lists assignments that are due to be turned in\nexit (stop, x) | Closes the application")
+    return "h (help) | Displays this menu\nlc (listcourses) | Lists courses that you are enrolled in\nla (listassignments) | Lists assignments that are due to be turned in"
 
 
 def menu():
@@ -17,20 +17,18 @@ def menu():
 
 def parseCommand(command):
     if command in ("h", "help"):
-        help()
+       return help()
     elif command in ("lc", "listcourses"):
-        ClassroomHelper.listCourses()
+        return ClassroomHelper.listCourses()
     elif command in ("la", "listassignments"):
-        ClassroomHelper.listAssignmentsBatch()
-    elif command in ("x", "exit", "stop"):
-        exit(0)
+        return ClassroomHelper.listAssignmentsBatch()
     else:
         Logger.error("Unknown command!")
 
-    menu()
+    # menu()
 
 
-if __name__ == '__main__':
+def start_main():
     Classroom.initialize()
 
     # pylint: disable=no-member
@@ -40,4 +38,4 @@ if __name__ == '__main__':
     Logger.success(Color.BOLD + "You are logged in as " + name)
     Logger.info("Type a command or use 'h' or 'help' for help")
 
-    menu()
+    # menu()

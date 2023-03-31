@@ -20,28 +20,33 @@ SCOPES = [
 
 
 class ClassroomHelper:
-    gclassroom = None
+    classroom = None
 
     def __init__(self, classroom):
-        self.gclassroom = classroom
+        self.classroom = classroom
 
     def getCourses(self):
         if 'courses' in globals():
             return
 
-        results = self.gclassroom.service.courses().list(pageSize=100).execute()
+        results = self.classroom.service.courses().list(pageSize=100).execute()
         global courses
         courses = results.get('courses', [])
 
     def listCourses(self):
         self.getCourses()
 
+        res = []
+
         if not courses:
             Logger.error('No courses found!')
         else:
             Logger.notice("Courses: (" + str(courses.__len__()) + ")")
             for course in courses:
-                print(course['name'])
+                res.append(course['name'])
+                
+                # print(course['name'])
+            return ", ".join(res)
 
     def listAssignmentsBatch(self):
         print("Getting due assignments... this may take a moment depending on the number of courses")
@@ -68,28 +73,27 @@ class ClassroomHelper:
         self.getCourses()
 
         # Get courseWork
-        courseWorkBatch = self.gclassroom.service.new_batch_http_request(
+        courseWorkBatch = self.classroom.service.new_batch_http_request(
             callback=courseWorkCallback)
         for course in courses:
             if 'ARCHIVED' not in course['courseState']:
-                request = self.gclassroom.service.courses(
+                request = self.classroom.service.courses(
                 ).courseWork().list(courseId=course['id'])
                 courseWorkBatch.add(request, request_id=course['id'])
 
         courseWorkBatch.execute()
 
-        submissionsBatch = self.gclassroom.service.new_batch_http_request(
+        submissionsBatch = self.classroom.service.new_batch_http_request(
             callback=submissionsCallback)
         for work in courseWork:
             assignmentList = work.get('courseWork')
 
             if not assignmentList:
-                Logger.success("No assignments due!")
-                return
+                return "No assignments due!"
 
             # Get submisions
             for assignment in assignmentList:
-                request = self.gclassroom.service.courses().courseWork().studentSubmissions(
+                request = self.classroom.service.courses().courseWork().studentSubmissions(
                 ).list(courseId=assignment['courseId'], courseWorkId=assignment['id'])
                 submissionsBatch.add(request, request_id=assignment['id'])
 
@@ -103,9 +107,9 @@ class ClassroomHelper:
                     dueAssignments.append(submission)
 
         if dueAssignments == []:
-            Logger.success("No assignments due!")
+            return "No assignments due!"
         else:
-            Logger.notice("Assignments: ")
+            courseWork.append("Assignments: ")
             for submission in dueAssignments:
                 for coursework in courseWork:
                     if coursework.get('courseWork')[0].get('id') == submission.get("courseWorkId"):
@@ -117,11 +121,11 @@ class ClassroomHelper:
                             desc = coursework.get('courseWork')[0].get(
                                 'description').split('\n')[0]
 
-                        Logger.info("* " + coursework.get('courseWork')[0].get(
+                        courseWork.append("* " + coursework.get('courseWork')[0].get(
                             'title') + " (" + coursework.get('courseWork')[0].get('id') + ")")
-                        print("  " + desc)
+                        courseWork.append("  " + desc)
 
-            Logger.notice("Due: " + str(dueAssignments.__len__()))
+            courseWork.append("Due: " + str(dueAssignments.__len__()))
 
 
 class Classroom:

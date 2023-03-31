@@ -6,7 +6,7 @@ import os
 import openai
 from logging.handlers import RotatingFileHandler
 from utilities import color, classroom, logger
-from . import index
+from main import start_main, parseCommand
 
 dotenv.load_dotenv()
 
@@ -77,16 +77,24 @@ class MyClient(discord.Client):
         
         logging.info(f'Message from {message.author.name}: {message.content}')
 
+        if message.content == 'lc':
+            res = parseCommand("lc")
+        elif message.content == 'la':
+            res = parseCommand("l")
+        else:
+            res = parseCommand("help")
+
         if message.content == 'ping':
             await message.channel.send('pong')
         
         if message.content == 'Hello!':
             await message.channel.send('Hi!')
             
-        result = classify_intent(message.content)
+        # result = classify_intent(message.content)
+        result = res
         await message.channel.send(result)
     
-    async def on_message(message):
+    async def on_command(message):
         if message.content.startswith('!'):
             # Remove the '!' character from the message
             cmd = message.content[1:]
@@ -99,4 +107,8 @@ bot_token = os.getenv('DISCORD_BOT_TOKEN')
 intents = discord.Intents.default()
 intents.message_content = True
 client = MyClient(intents=intents)
+
+
+start_main()
+
 client.run(bot_token)

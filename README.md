@@ -15,10 +15,8 @@ To use Student Assistant, simply invite the bot to your Discord server and autho
 ### Commands
 Here are some of the commands you can use with ClassBot:
 
-- !clr courses: List all of the courses you're currently enrolled in.
-- !clr assignments: List all of the upcoming assignments for a specific course.
-- !clr grades: Show your current grades for a specific course.
-- !clr help: Display a list of available commands and their usage instructions.
+- la : Lists assignments that are due to be turned in
+- lc : Lists courses that you are enrolled in
 
 ## Credits
-ClassBot is created by Nanmanas Poonyapat (@nnmnsp) and is not affiliated with or endorsed by Google or Discord.
+Student Assistant is created by Nanmanas Poonyapat (@nnmnsp) and is not affiliated with or endorsed by Google or Discord.
