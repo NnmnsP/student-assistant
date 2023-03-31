@@ -13,7 +13,7 @@ dotenv.load_dotenv()
 openai.api_key = os.getenv('OPEN_API_KEY')
 #print(openai.api_key)
 
-def classify_intent(prompt):
+"""def classify_intent(prompt):
     model_engine = "text-davinci-002"  # or any other OpenAI model that suits your use case
 
     # define the prompt to use for classification
@@ -42,7 +42,7 @@ def classify_intent(prompt):
 
     # return the predicted intent code
     return predicted_intent
-
+"""
 # create logger
 def init_logging(logger):
     # logger = logging.getLogger()
@@ -80,34 +80,19 @@ class MyClient(discord.Client):
         if message.content == 'lc':
             res = parseCommand("lc")
         elif message.content == 'la':
-            res = parseCommand("l")
+            res = parseCommand("la")
         else:
             res = parseCommand("help")
-
-        if message.content == 'ping':
-            await message.channel.send('pong')
-        
-        if message.content == 'Hello!':
-            await message.channel.send('Hi!')
             
         # result = classify_intent(message.content)
         result = res
         await message.channel.send(result)
-    
-    async def on_command(message):
-        if message.content.startswith('!'):
-            # Remove the '!' character from the message
-            cmd = message.content[1:]
-            # Execute the command and capture the output
-            output = subprocess.check_output(cmd, shell=True)
-            # Send the output back to the user
-            await message.channel.send(output.decode())
+
 
 bot_token = os.getenv('DISCORD_BOT_TOKEN')
 intents = discord.Intents.default()
 intents.message_content = True
 client = MyClient(intents=intents)
-
 
 start_main()
 

@@ -46,7 +46,7 @@ class ClassroomHelper:
                 res.append(course['name'])
                 
                 # print(course['name'])
-            return ", ".join(res)
+            return "\n".join(res)
 
     def listAssignmentsBatch(self):
         print("Getting due assignments... this may take a moment depending on the number of courses")
