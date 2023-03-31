@@ -11,7 +11,6 @@ from main import start_main, parseCommand
 dotenv.load_dotenv()
 
 openai.api_key = os.getenv('OPEN_API_KEY')
-#print(openai.api_key)
 
 """def classify_intent(prompt):
     model_engine = "text-davinci-002"  # or any other OpenAI model that suits your use case

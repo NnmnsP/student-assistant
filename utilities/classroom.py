@@ -41,7 +41,7 @@ class ClassroomHelper:
         if not courses:
             Logger.error('No courses found!')
         else:
-            Logger.notice("Courses: (" + str(courses.__len__()) + ")")
+            res.append("Courses: (" + str(courses.__len__()) + ")")
             for course in courses:
                 res.append(course['name'])
                 
@@ -49,7 +49,6 @@ class ClassroomHelper:
             return "\n".join(res)
 
     def listAssignmentsBatch(self):
-        print("Getting due assignments... this may take a moment depending on the number of courses")
         global courseWork
         courseWork = []
 
