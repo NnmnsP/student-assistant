@@ -40,4 +40,4 @@ jobs:
         #   YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
           echo "Deploying to ${{ vars.IP }} ..."
-          ssh -i ~/.ssh/id_rsa ubuntu@"${{ vars.IP }}" "cd ITP_3-Python_Discord-bot && git checkout -- . && git pull && chmod u+x update.sh && ./update.sh"
+          ssh -i ~/.ssh/id_rsa ubuntu@"${{ vars.IP }}" "cd student-assistant && git checkout -- . && git pull && chmod u+x update.sh && ./update.sh"
