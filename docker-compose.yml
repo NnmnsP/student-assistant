@@ -1,0 +1,13 @@
+services:
+  database:
+      image: postgres:13.3
+      env_file:
+        - .env
+      restart: 'no'
+      ports:
+        - 127.0.0.1:5432:5432
+      volumes:
+        - db-data:/var/lib/postgresql/data:rw
+
+volumes:
+  db-data:
