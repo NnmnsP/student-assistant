@@ -1,0 +1,43 @@
+name: Discord Bot
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create SSH key
+        run: |
+          echo "Creating empty id_rsa file with correct permissions..."
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "Done creating id_rsa file."
+          echo "Writing private key to id_rsa file..."
+          echo "${{ secrets.AWS_LIGHTSAIL }}" > ~/.ssh/id_rsa
+          echo "Done writing private key to id_rsa file."
+          echo "Adding host key to known_hosts file..."
+          ssh-keyscan -H "${{ vars.IP }}" > ~/.ssh/known_hosts
+          echo "Done adding host key to known_hosts file."
+      # - name: Write Google client secret JSON file
+      #   # env:
+      #   #   GOOGLE_CLIENT_SECRET_JSON: ${{ secrets.GOOGLE_CLIENT_SECRET_JSON }}
+      #   run: |
+      #     echo "${{ secrets.GOOGLE_CLIENT_SECRET_JSON }}" > client_secret.json
+      - name: Deploy with git pull and running update.sh on the instance
+        # env:
+        #   COMPOSE_PROJECT_NAME: bot_history
+        #   DOCKER_ENV: prod
+        #   POSTGRES_HOST: database
+        #   POSTGRES_DB: bot_history
+        #   POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        #   POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        #   DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+        #   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        #   DISCORD_GUILD_ID: ${{ secrets.DISCORD_GUILD_ID }}
+        #   YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: |
+          echo "Deploying to ${{ vars.IP }} ..."
+          ssh -i ~/.ssh/id_rsa ubuntu@"${{ vars.IP }}" "cd ITP_3-Python_Discord-bot && git checkout -- . && git pull && chmod u+x update.sh && ./update.sh"
